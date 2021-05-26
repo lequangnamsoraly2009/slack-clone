@@ -43,3 +43,14 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 # slack-clone
+# Processing:
+
+### 26/05/2021
+    - Create app with ReactJS
+    - Include:  + Redux-toolkit
+                + Styled-components
+                + Material-UI
+                + Firebase Hooks
+    - Create UI Header
+### 27/05/2021
+    -
