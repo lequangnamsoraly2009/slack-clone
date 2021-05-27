@@ -49,7 +49,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
     - Create app with ReactJS
     - Include:  + Redux-toolkit
                 + Styled-components
-                + Material-UI
+                + Material-UI and Material-Icons
                 + Firebase Hooks
     - Create UI Header
 ### 27/05/2021
