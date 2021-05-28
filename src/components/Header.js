@@ -9,7 +9,7 @@ import { auth } from "../firebase";
 
 function Header() {
   const [user] = useAuthState(auth);
-  console.log(user);
+  // console.log(user);
   return (
     <HeaderContainer>
       <HeaderLeft>

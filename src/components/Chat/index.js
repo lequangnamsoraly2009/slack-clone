@@ -56,14 +56,17 @@ function Chat() {
           </ChatHeader>
           <ChatMessage>
             {roomMessage?.docs.map((doc) => {
-              const { message, timestamp, userName, userImage } = doc.data();
+              // console.log(doc.id);
+              const { message, timestamp, userName, userImage ,userUid } = doc.data();
               return (
                 <Message
                   key={doc.id}
+                  messageUid = {doc.id}
                   message={message}
                   timestamp={timestamp}
                   userName={userName}
                   userImage={userImage}
+                  userUid ={userUid}
                 />
               );
             })}
@@ -93,9 +96,12 @@ const ChatHeader = styled.div`
   top: 60px;
   width: 81vw;
   background-color: white;
+  z-index: 999;
+
   @media (max-width: 768px){
   width: 61vw;
   }
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
