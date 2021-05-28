@@ -2,19 +2,38 @@ import React from "react";
 import styled from "styled-components";
 // import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { useSelector } from "react-redux";
 import { selectRoomId } from "../../features/App/appSlice";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-function Message({ message, timestamp, userName, userImage, userUid , messageUid }) {
+function Message({
+  message,
+  timestamp,
+  userName,
+  userImage,
+  userUid,
+  messageUid,
+}) {
+  const [user] = useAuthState(auth);
   // console.log(messageUid);
   const roomId = useSelector(selectRoomId);
   const deleteMessage = (e) => {
     e.preventDefault();
     if (!userUid) return;
-    db.collection('rooms').doc(roomId).collection('messages').doc(messageUid).delete().then(()=>{
-      console.log("Delete message success ~~~ ");
-    })
+    console.log("user KT ",user.uid);
+    console.log("user Mess ",userUid);
+
+    if (userUid === user.uid) {
+      db.collection("rooms")
+        .doc(roomId)
+        .collection("messages")
+        .doc(messageUid)
+        .delete()
+        .then(() => {
+          console.log("Delete message success ~~~ ");
+        });
+    }
   };
 
   return (
