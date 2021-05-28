@@ -2,15 +2,22 @@ import { Avatar } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import SearchIcon from "@material-ui/icons/Search"
-import EcoIcon from '@material-ui/icons/Eco';
-
+import SearchIcon from "@material-ui/icons/Search";
+import EcoIcon from "@material-ui/icons/Eco";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
 
 function Header() {
+  const [user] = useAuthState(auth);
+  console.log(user);
   return (
     <HeaderContainer>
       <HeaderLeft>
-        <HeaderAvatar alt="" src="" />
+        <HeaderAvatar
+          
+          alt={user?.displayName}
+          src={user?.photoURL}
+        />
         <AccessTimeIcon />
       </HeaderLeft>
       <HeaderMain>
@@ -18,7 +25,8 @@ function Header() {
         <input placeholder="Searching" />
       </HeaderMain>
       <HeaderRight>
-        <EcoIcon />
+        <EcoIcon onClick={() => auth.signOut()} />
+       
       </HeaderRight>
     </HeaderContainer>
   );
@@ -59,7 +67,7 @@ const HeaderMain = styled.div`
   flex: 0.4;
   opacity: 1;
   border-radius: 6px;
-  background-color: rgb(169,220,245);
+  background-color: rgb(169, 220, 245);
   text-align: center;
   display: flex;
   padding: 0 50px;
@@ -74,7 +82,6 @@ const HeaderMain = styled.div`
     outline: 0;
     color: #000;
   }
-
 `;
 
 const HeaderRight = styled.div`
@@ -82,11 +89,10 @@ const HeaderRight = styled.div`
   display: flex;
   align-items: flex-end;
 
-  > .MuiSvgIcon-root{
+  > .MuiSvgIcon-root {
     margin-left: auto;
     margin-right: 20px;
   }
-
 `;
 
 export default Header;

@@ -1,12 +1,37 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { enterRoom } from "../../features/App/appSlice";
+import { auth, db } from "../../firebase";
+import firebase from 'firebase'
 
-function SideBarOptions({ Icon, title, addChannelOption }) {
-  const addChannel = (
-       
-  ) => {};
+function SideBarOptions({ Icon, title, addChannelOption, id }) {
+  const dispatch = useDispatch();
+  const [user] = useAuthState(auth); 
+  // console.log(channels.docs.data())
+  const addChannel = () => {
+    const channelName = prompt("Please enter the channel name");
 
-  const selectChannel = () => {};
+    if (channelName) {
+      db.collection("rooms").add({
+        nameChannel: channelName,
+        userCreate: user.displayName,
+        userUid: user.uid,
+        userEmail: user.email,
+        userImage: user.photoURL,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    }
+  };
+
+  const selectChannel = () => {
+    if (id) {
+        dispatch(enterRoom({
+          roomId: id,
+        }));
+    }
+  };
 
   return (
     <SideBarOptionContainer
@@ -44,6 +69,9 @@ const SideBarOptionContainer = styled.div`
   }
 `;
 
-const SideBarOptionChannel = styled.div``;
+const SideBarOptionChannel = styled.h3`
+  padding: 10px 0;
+  font-weight: 300;
+`;
 
 export default SideBarOptions;

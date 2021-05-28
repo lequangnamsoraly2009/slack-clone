@@ -1,3 +1,6 @@
+## Release:
+Click here [Slack Clone 2.0](https://slack-clone-63da2.web.app/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
@@ -53,4 +56,10 @@ To learn React, check out the [React documentation](https://reactjs.org/).
                 + Firebase Hooks
     - Create UI Header
 ### 27/05/2021
-    -
+    - Noobs
+### 28/05/2021
+    - Create SideBar
+    - Create Message
+    - Login
+    - FireStore
+    - Deploy

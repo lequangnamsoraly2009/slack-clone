@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useCollection } from "react-firebase-hooks/firestore";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import CreateIcon from "@material-ui/icons/Create";
 import SideBarOptions from "../SideBarOptions";
@@ -13,19 +14,20 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import AppsIcon from "@material-ui/icons/Apps";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
-
-
-
+import { auth, db } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function SideBar() {
+  const [channels, loading, error] = useCollection(db.collection("rooms"));
+  const [user] = useAuthState(auth);
   return (
     <SideBarContainer>
       <SideBarHeader>
         <SideBarInfo>
-          <h2>Your Company</h2>
+          <h2>Ăn Chơi Sa Đọa</h2>
           <h3>
             <FiberManualRecordIcon />
-            Your Name
+            {user.displayName}
           </h3>
         </SideBarInfo>
         <CreateIcon />
@@ -42,6 +44,13 @@ function SideBar() {
       <SideBarOptions Icon={ExpandMoreIcon} title="Channel" />
       <hr />
       <SideBarOptions Icon={AddIcon} addChannelOption title="Add Channel" />
+      {channels?.docs.map((doc) => (
+        <SideBarOptions
+          key={doc.id}
+          id={doc.id}
+          title={doc.data().nameChannel}
+        />
+      ))}
     </SideBarContainer>
   );
 }
@@ -54,10 +63,10 @@ const SideBarContainer = styled.div`
   max-width: 300px;
   margin-top: 60px;
 
-  >hr{
-      margin-top:10px;
-      margin-bottom:10px;
-      border: 1px solid #444;
+  > hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #444;
   }
 `;
 
