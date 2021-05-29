@@ -21,8 +21,8 @@ function Message({
   const deleteMessage = (e) => {
     e.preventDefault();
     if (!userUid) return;
-    console.log("user KT ",user.uid);
-    console.log("user Mess ",userUid);
+    // console.log("user KT ",user.uid);
+    // console.log("user Mess ",userUid);
 
     if (userUid === user.uid) {
       db.collection("rooms")

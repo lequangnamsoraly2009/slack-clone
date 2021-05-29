@@ -1,4 +1,3 @@
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
@@ -7,19 +6,19 @@ import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import Message from "../Message";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ChatInput from "../ChatInput";
-import { selectRoomId } from "../../appSlice";
+import { selectRoomId} from "../../appSlice";
 import { auth } from "firebase.js";
 import { db } from "firebase.js";
 
 function Chat() {
   const chatRef = useRef(null);
   const [user] = useAuthState(auth);
-
   const roomId = useSelector(selectRoomId);
-  // console.log(roomId);
-  const [roomDetails] = useDocument(
+  console.log(roomId);
+
+  const [detailsRoom] = useDocument(
     roomId && db.collection("rooms").doc(roomId)
-  );
+  )
 
 
   const [roomMessage, loading] = useCollection(
@@ -35,40 +34,35 @@ function Chat() {
     chatRef?.current?.scrollIntoView({ behavior: "smooth" });
   }, [roomId, loading]);
 
-  // console.log(roomDetails?.data());
-  // console.log(roomMessage)
-
   return (
     <ChatContainer>
-      {roomDetails && roomMessage && user &&(
+      {(detailsRoom && roomId && roomMessage && user)  && (
         <>
           <ChatHeader>
             <ChatHeaderLeft>
               <h4>
-                <strong>#{roomDetails?.data().nameChannel}</strong>
+                <strong># {detailsRoom?.data()?.nameChannel}</strong>
               </h4>
               <StarBorderOutlinedIcon />
             </ChatHeaderLeft>
             <ChatHeaderRight>
-              <p>
-                <InfoOutlinedIcon />
-                Details
-              </p>
+              <p>Details</p>
             </ChatHeaderRight>
           </ChatHeader>
           <ChatMessage>
             {roomMessage?.docs.map((doc) => {
               // console.log(doc.id);
-              const { message, timestamp, userName, userImage ,userUid } = doc.data();
+              const { message, timestamp, userName, userImage, userUid } =
+                doc.data();
               return (
                 <Message
                   key={doc.id}
-                  messageUid = {doc.id}
+                  messageUid={doc.id}
                   message={message}
                   timestamp={timestamp}
                   userName={userName}
                   userImage={userImage}
-                  userUid ={userUid}
+                  userUid={userUid}
                 />
               );
             })}
@@ -76,7 +70,7 @@ function Chat() {
           </ChatMessage>
           <ChatInput
             chatRef={chatRef}
-            channelName={roomDetails?.data().nameChannel}
+            channelName={(roomId) ? detailsRoom?.data()?.nameChannel : "No data"}
             channelId={roomId}
           />
         </>
@@ -100,8 +94,8 @@ const ChatHeader = styled.div`
   background-color: white;
   z-index: 999;
 
-  @media (max-width: 768px){
-  width: 61vw;
+  @media (max-width: 768px) {
+    width: 61vw;
   }
 
   display: flex;
@@ -127,15 +121,14 @@ const ChatHeaderLeft = styled.div`
 `;
 
 const ChatHeaderRight = styled.div`
+  /* border: 1px solid #222;
+  border-radius: 5px;
+  padding: 2px; */
   > p {
     display: flex;
     align-items: center;
     font-size: 14px;
-  }
-
-  > p > .MuiSvgIcon-root {
-    margin-right: 5px !important;
-    font-size: 16px;
+    /* cursor: pointer; */
   }
 `;
 

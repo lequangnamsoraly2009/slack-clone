@@ -2,13 +2,14 @@ import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import firebase from 'firebase'
+import firebase from "firebase";
 import { enterRoom } from "features/App/appSlice";
-import { auth,db } from "firebase.js";
+import { auth, db } from "firebase.js";
+import CloseIcon from "@material-ui/icons/Close";
 
 function SideBarOptions({ Icon, title, addChannelOption, id }) {
   const dispatch = useDispatch();
-  const [user] = useAuthState(auth); 
+  const [user] = useAuthState(auth);
   // console.log(channels.docs.data())
   const addChannel = () => {
     const channelName = prompt("Please enter the channel name");
@@ -27,10 +28,24 @@ function SideBarOptions({ Icon, title, addChannelOption, id }) {
 
   const selectChannel = () => {
     if (id) {
-        dispatch(enterRoom({
+      dispatch(
+        enterRoom({
           roomId: id,
-        }));
+        })
+      );
     }
+  };
+
+  const handleDeleteChannel = (e) => {
+    e.preventDefault();
+    if (!id) return;
+    db.collection("rooms")
+      .doc(id)
+      .delete()
+      .then(() => {
+        console.log("Success");
+      });
+    
   };
 
   return (
@@ -42,7 +57,10 @@ function SideBarOptions({ Icon, title, addChannelOption, id }) {
         <h3>{title}</h3>
       ) : (
         <SideBarOptionChannel>
-          <span>#</span> {title}
+          <span># {title}</span>
+          <SideBarOptionIcon>
+            <CloseIcon onClick = {e=>handleDeleteChannel(e)}/>
+          </SideBarOptionIcon>
         </SideBarOptionChannel>
       )}
     </SideBarOptionContainer>
@@ -55,7 +73,6 @@ const SideBarOptionContainer = styled.div`
   align-items: center;
   padding-left: 2px;
   cursor: pointer;
-
   :hover {
     opacity: 0.9;
     background-color: #333;
@@ -69,9 +86,29 @@ const SideBarOptionContainer = styled.div`
   }
 `;
 
+const SideBarOptionIcon = styled.div`
+  display: none !important;
+  position: absolute;
+  content: "";
+  right: 0px;
+  top: 7px;
+  background-color: transparent;
+  color: white;
+  width: 50px;
+  /* display: block; */
+`;
+
 const SideBarOptionChannel = styled.h3`
+  position: relative;
   padding: 10px 0;
   font-weight: 300;
+  width: 100%;
+  /* display: flex; */
+  &:hover {
+    ${SideBarOptionIcon} {
+      display: flex !important;
+    }
+  }
 `;
 
 export default SideBarOptions;
