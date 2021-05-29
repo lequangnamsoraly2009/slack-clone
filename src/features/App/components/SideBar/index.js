@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useCollection } from "react-firebase-hooks/firestore";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import CreateIcon from "@material-ui/icons/Create";
-import SideBarOptions from "../SideBarOptions";
 import InsertCommentIcon from "@material-ui/icons/InsertComment";
 import InboxIcon from "@material-ui/icons/Inbox";
 import DraftsIcon from "@material-ui/icons/Drafts";
@@ -14,11 +13,12 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import AppsIcon from "@material-ui/icons/Apps";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
-import { auth, db } from "../../firebase";
+import { auth, db } from "../../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import SideBarOptions from "../SideBarOptions";
 
 function SideBar() {
-  const [channels, loading, error] = useCollection(db.collection("rooms"));
+  const [channels] = useCollection(db.collection("rooms"));
   const [user] = useAuthState(auth);
   return (
     <SideBarContainer>

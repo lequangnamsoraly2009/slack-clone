@@ -2,9 +2,9 @@ import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { enterRoom } from "../../features/App/appSlice";
-import { auth, db } from "../../firebase";
 import firebase from 'firebase'
+import { enterRoom } from "features/App/appSlice";
+import { auth,db } from "firebase.js";
 
 function SideBarOptions({ Icon, title, addChannelOption, id }) {
   const dispatch = useDispatch();

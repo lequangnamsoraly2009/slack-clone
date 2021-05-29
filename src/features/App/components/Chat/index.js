@@ -3,12 +3,13 @@ import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { selectRoomId } from "../../features/App/appSlice";
-import ChatInput from "../ChatInput";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
-import { auth, db } from "../../firebase";
 import Message from "../Message";
 import { useAuthState } from "react-firebase-hooks/auth";
+import ChatInput from "../ChatInput";
+import { selectRoomId } from "../../appSlice";
+import { auth } from "firebase.js";
+import { db } from "firebase.js";
 
 function Chat() {
   const chatRef = useRef(null);
@@ -19,6 +20,7 @@ function Chat() {
   const [roomDetails] = useDocument(
     roomId && db.collection("rooms").doc(roomId)
   );
+
 
   const [roomMessage, loading] = useCollection(
     roomId &&
@@ -74,7 +76,7 @@ function Chat() {
           </ChatMessage>
           <ChatInput
             chatRef={chatRef}
-            channelName={roomDetails?.data().name}
+            channelName={roomDetails?.data().nameChannel}
             channelId={roomId}
           />
         </>

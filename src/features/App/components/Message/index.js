@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 // import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { auth, db } from "../../firebase";
+import { auth, db } from "../../../../firebase";
 import { useSelector } from "react-redux";
-import { selectRoomId } from "../../features/App/appSlice";
+import { selectRoomId } from "../../appSlice";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 function Message({
