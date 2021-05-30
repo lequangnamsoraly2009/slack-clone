@@ -7,15 +7,18 @@ import firebase from "firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "firebase.js";
 import { db } from "firebase.js";
+import _ from "lodash";
 
 function ChatInput({ channelName, channelId, chatRef }) {
   const [messageText, setMessageText] = useState("");
   const [user] = useAuthState(auth);
-//   console.log(channelId);
+  //   console.log(channelId);
+
+  const whitespaceCharacters = [' ', '  ','\b', '\t', '\n', '\v', '\f', '\r'];
 
   const sendMessage = (e) => {
     e.preventDefault();
-    if(e.target !== e.currentTarget)return;
+    if (e.target !== e.currentTarget) return;
 
     if (!channelId) {
       return false;
@@ -28,17 +31,29 @@ function ChatInput({ channelName, channelId, chatRef }) {
       userUid: user.uid,
     });
 
-    chatRef.current.scrollIntoView({ behavior : "smooth"});
+    chatRef.current.scrollIntoView({ behavior: "smooth" });
 
-    setMessageText('');
+    setMessageText("");
+  };
+
+  const setMessageCondition = (e) => {
+    e.preventDefault();
+
+    if (_.some(whitespaceCharacters,e.target.value)==='true') {
+      return;
+    } 
+    setMessageText(e.target.value);
   };
 
   return (
     <ChatInputContainer>
       <form>
-        <input value={messageText} 
-        onChange={e => setMessageText(e.target.value)}
-        placeholder={`Message #${channelName}`} />
+        <input
+          autofocus="true"
+          value={messageText}
+          onChange={(e) => setMessageCondition(e)}
+          placeholder={`Message #${channelName}`}
+        />
         <Button hidden type="submit" onClick={sendMessage}>
           SEND
         </Button>
@@ -48,7 +63,6 @@ function ChatInput({ channelName, channelId, chatRef }) {
 }
 
 const ChatInputContainer = styled.div`
-  
   border-radius: 20px;
   > form {
     position: relative;
@@ -63,8 +77,8 @@ const ChatInputContainer = styled.div`
     border-radius: 3px;
     padding: 20px;
     outline: none;
-    @media(max-width: 768px){
-    width: 60%;
+    @media (max-width: 768px) {
+      width: 60%;
     }
   }
   > form > button {

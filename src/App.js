@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
@@ -9,6 +9,8 @@ import Chat from "features/App/components/Chat";
 import Login from "features/User/components/Login";
 import Header from "components/Header";
 import SideBar from "features/App/components/SideBar";
+import User from "features/User";
+import NotFound from "components/NotFound";
 
 function App() {
   const [user, loading] = useAuthState(auth);
@@ -38,10 +40,11 @@ function App() {
             <AppBody>
               <SideBar />
               <Switch>
-                <Route path="/" exact>
-                  
-                  <Chat />
-                </Route>
+              <Redirect exact from="/" to="/chat" />
+
+                <Route path="/chat" component={Chat} />                          
+                <Route path="/user" component={User} />
+                <Route component={NotFound} />
               </Switch>
             </AppBody>
           </>
