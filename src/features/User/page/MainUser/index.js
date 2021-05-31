@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import InfoIcon from "@material-ui/icons/Info";
+import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 
 function MainUser() {
   return (
@@ -18,29 +20,96 @@ function MainUser() {
           />
         </HeaderUserAvatar>
       </HeaderUser>
-      <UserContainer>
-        <UserNameAndDescription>
-            <h2>Your Name</h2>
-            <p>Love you to the moon and back</p>
-        </UserNameAndDescription>
 
-      </UserContainer>
+      <UserNameAndDescription>
+        <h2>One Pro Player Unknown</h2>
+        <p>
+          <i>Love you to the moon and back ♥️</i>
+        </p>
+      </UserNameAndDescription>
+
+      <UserMain>
+        <UserMainLeft>
+          <h1>
+            <InfoIcon /> INFORMATION
+          </h1>
+          <span>
+            Đã Từng Sống Ở <b> Trái Đất</b>
+          </span>
+          <span>
+            Có Lẽ Là Đang <b>FA</b>{" "}
+          </span>
+          <span>
+            Đã Từng Học Ở<b> Đại Học Đường Đời</b>
+          </span>
+          <span>Ta Chỉ Sống Một Lần Trong Đời</span>
+          <span>
+            Số Người Theo Dõi: <b> 3.319.241 Clones ☑️</b>
+          </span>
+          <span>
+            Số Channel Theo Dõi: <b> 4 Channels </b>
+          </span>
+          <span>
+            Số Người Ghét Bỏ: <b> Infinities </b>
+          </span>
+        </UserMainLeft>
+        <UserMainMain>
+          <UserMainMainPost>
+            <PostHeader>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/vi/b/b0/Avatar-Teaser-Poster.jpg"
+                alt="This is Avatar"
+              />
+              <button>Start A Post</button>
+              
+            </PostHeader>
+            <PostFooter>
+
+            </PostFooter>
+          </UserMainMainPost>
+          <UserMainMainSomething></UserMainMainSomething>
+        </UserMainMain>
+        <UserMainRight>
+          <h1>
+            {" "}
+            <DoubleArrowIcon /> CHANNELS FOLLOW
+          </h1>
+          <ChannelFollow>
+            <p>#</p>
+            <span>Tên Channel Follow</span>
+          </ChannelFollow>
+          <ChannelFollow>
+            <p>#</p>
+            <span>Tên Channel Follow</span>
+          </ChannelFollow>
+          <ChannelFollow>
+            <p>#</p>
+            <span>Tên Channel Follow</span>
+          </ChannelFollow>
+          <ChannelFollow>
+            <p>#</p>
+            <span>Tên Channel Follow</span>
+          </ChannelFollow>
+        </UserMainRight>
+      </UserMain>
     </MainUserContainer>
   );
 }
 
 const MainUserContainer = styled.div`
+  overflow-y: scroll;
   margin-top: 60px;
   display: flex;
   flex-direction: column;
   flex: 1;
+  position: relative;
 `;
 
 const HeaderUser = styled.div`
   position: relative;
   display: flex;
   width: 100%;
-  height: 400px;
+  height: 375px;
   flex-direction: column;
 `;
 
@@ -60,7 +129,7 @@ const HeaderUserAvatar = styled.div`
   position: absolute;
   content: "";
   top: 50%;
-  right: 50%;
+  right: 43.5%;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -84,8 +153,140 @@ const HeaderUserAvatar = styled.div`
   }
 `;
 
-const UserContainer = styled.div``;
+const UserNameAndDescription = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  padding-bottom: 10px;
+  width: 100%;
+  > h2 {
+    text-align: center;
+    font-size: 30px;
+  }
+  > p {
+    text-align: center;
 
-const UserNameAndDescription = styled.div``;
+    > i {
+      font-weight: 300;
+      font-size: 16px;
+    }
+  }
+`;
+
+const UserMain = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+`;
+
+const UserMainLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 0.25;
+  > h1 {
+    text-align: center;
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 400;
+    > .MuiSvgIcon-root {
+      vertical-align: sub;
+      font-size: 20px;
+      color: var(--color-original);
+      padding-bottom: 2px;
+    }
+  }
+  > span {
+    font-weight: 300;
+    font-size: 15px;
+    text-align: center;
+    line-height: 2;
+  }
+`;
+
+const UserMainMain = styled.div`
+  flex: 0.55;
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+`;
+
+const UserMainMainPost = styled.div`
+  width: 100%;
+  height:80px;
+  border-bottom: 1px solid rgba(0, 0, 0,0.3);
+  display: flex;
+  flex-direction: column;
+`;
+
+const PostHeader = styled.div`
+  width: 100%;
+  height: 75px;
+  display: flex;
+  flex-direction: row;
+  margin: 10px 40px;
+  >img{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+  >button{
+    height: 60px;
+    width: 75%;
+    font-size: 16px;
+    padding-left: 20px;
+    text-align: start;
+    color: rgba(0,0,0,0.3);
+    border: 0.5px solid rgba(0,0,0,0.2);
+    border-radius: 15px;
+    /* background-color: var(--color-original); */
+
+    :hover{
+    border: 0.5px solid rgba(0,0,0,0.7);
+    color: rgba(0,0,0,1);
+    }
+  }
+`;
+
+const PostFooter = styled.div``;
+
+const UserMainMainSomething = styled.div``;
+
+const UserMainRight = styled.div`
+  flex: 0.2;
+  display: flex;
+  flex-direction: column;
+  > h1 {
+    text-align: center;
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 400;
+    > .MuiSvgIcon-root {
+      vertical-align: sub;
+      font-size: 20px;
+      color: var(--color-original);
+      padding-bottom: 2px;
+    }
+  }
+`;
+
+const ChannelFollow = styled.div`
+  display: flex;
+  flex-direction: row;
+  line-height: 2;
+  margin-left: 20px;
+  > p {
+    font-weight: 900;
+    margin-right: 10px;
+  }
+  > span {
+    font-weight: 600;
+    cursor: pointer;
+  }
+`;
 
 export default MainUser;
