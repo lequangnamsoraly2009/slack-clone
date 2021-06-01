@@ -6,6 +6,7 @@ import { auth, db } from "../../../../firebase";
 import { useSelector } from "react-redux";
 import { selectRoomId } from "../../appSlice";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useHistory } from "react-router";
 
 function Message({
   message,
@@ -15,9 +16,17 @@ function Message({
   userUid,
   messageUid,
 }) {
+  const history = useHistory();
   const [user] = useAuthState(auth);
   // console.log(messageUid);
   const roomId = useSelector(selectRoomId);
+
+  const handleClickUser = (e) =>{
+    e.preventDefault();
+    if(!userUid) return;
+    history.push(`/user/${userUid}`);
+  }
+
   const deleteMessage = (e) => {
     e.preventDefault();
     if (!userUid) return;
@@ -39,13 +48,12 @@ function Message({
   return (
     <MessageContainer>
       <MessageLeft>
-        <img src={userImage} alt="user" />
+        <img onClick={handleClickUser} src={userImage} alt="user" />
         <MessageInfo>
-          <h4>
+          <h4 onClick={handleClickUser}>
             {userName}
             <span>{new Date(timestamp?.toDate()).toLocaleString()}</span>
           </h4>
-
           <p>{message}</p>
         </MessageInfo>
       </MessageLeft>

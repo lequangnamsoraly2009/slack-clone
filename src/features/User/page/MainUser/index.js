@@ -2,97 +2,98 @@ import React from "react";
 import styled from "styled-components";
 import InfoIcon from "@material-ui/icons/Info";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
+import Post from "features/User/components/Post";
+import { useParams } from "react-router";
+import { db } from "firebase.js";
+import { useDocument } from "react-firebase-hooks/firestore";
+// import { useAuthState } from "react-firebase-hooks/auth";
+// import { authAuthentication } from "firebase.js";
 
 function MainUser() {
+  const { userId } = useParams();
+  const [dataUser] = useDocument(userId && db.collection("users").doc(userId));
+
   return (
-    <MainUserContainer>
-      <HeaderUser>
-        <HeaderUserBackground>
-          <img
-            src="https://c.wallhere.com/photos/0f/db/5_Centimeters_Per_Second_anime-106824.jpg!d"
-            alt="This is background dizz"
-          />
-        </HeaderUserBackground>
-        <HeaderUserAvatar>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/vi/b/b0/Avatar-Teaser-Poster.jpg"
-            alt="This is Avatar"
-          />
-        </HeaderUserAvatar>
-      </HeaderUser>
+    <>
+      <MainUserContainer>
+        <HeaderUser>
+          <HeaderUserBackground>
+            <img
+              src="https://c.wallhere.com/photos/0f/db/5_Centimeters_Per_Second_anime-106824.jpg!d"
+              alt="This is background dizz"
+            />
+          </HeaderUserBackground>
+          <HeaderUserAvatar>
+            <img src={dataUser?.data()?.photoURL} alt="This is Avatar" />
+          </HeaderUserAvatar>
+        </HeaderUser>
 
-      <UserNameAndDescription>
-        <h2>One Pro Player Unknown</h2>
-        <p>
-          <i>Love you to the moon and back ♥️</i>
-        </p>
-      </UserNameAndDescription>
+        <UserNameAndDescription>
+          <h2>{dataUser?.data()?.displayName}</h2>
+          <p>
+            <i>{dataUser?.data()?.statusUser}</i>
+          </p>
+        </UserNameAndDescription>
 
-      <UserMain>
-        <UserMainLeft>
-          <h1>
-            <InfoIcon /> INFORMATION
-          </h1>
-          <span>
-            Đã Từng Sống Ở <b> Trái Đất</b>
-          </span>
-          <span>
-            Có Lẽ Là Đang <b>FA</b>{" "}
-          </span>
-          <span>
-            Đã Từng Học Ở<b> Đại Học Đường Đời</b>
-          </span>
-          <span>Ta Chỉ Sống Một Lần Trong Đời</span>
-          <span>
-            Số Người Theo Dõi: <b> 3.319.241 Clones ☑️</b>
-          </span>
-          <span>
-            Số Channel Theo Dõi: <b> 4 Channels </b>
-          </span>
-          <span>
-            Số Người Ghét Bỏ: <b> Infinities </b>
-          </span>
-        </UserMainLeft>
-        <UserMainMain>
-          <UserMainMainPost>
-            <PostHeader>
-              <img
-                src="https://upload.wikimedia.org/wikipedia/vi/b/b0/Avatar-Teaser-Poster.jpg"
-                alt="This is Avatar"
-              />
-              <button>Start A Post</button>
-              
-            </PostHeader>
-            <PostFooter>
-
-            </PostFooter>
-          </UserMainMainPost>
-          <UserMainMainSomething></UserMainMainSomething>
-        </UserMainMain>
-        <UserMainRight>
-          <h1>
-            {" "}
-            <DoubleArrowIcon /> CHANNELS FOLLOW
-          </h1>
-          <ChannelFollow>
-            <p>#</p>
-            <span>Tên Channel Follow</span>
-          </ChannelFollow>
-          <ChannelFollow>
-            <p>#</p>
-            <span>Tên Channel Follow</span>
-          </ChannelFollow>
-          <ChannelFollow>
-            <p>#</p>
-            <span>Tên Channel Follow</span>
-          </ChannelFollow>
-          <ChannelFollow>
-            <p>#</p>
-            <span>Tên Channel Follow</span>
-          </ChannelFollow>
-        </UserMainRight>
-      </UserMain>
-    </MainUserContainer>
+        <UserMain>
+          <UserMainLeft>
+            <h1>
+              <InfoIcon /> INFORMATION
+            </h1>
+            <span>
+              Đã Từng Sống Ở <b> Trái Đất</b>
+            </span>
+            <span>
+              Có Lẽ Là Đang <b>FA</b>{" "}
+            </span>
+            <span>
+              Đã Từng Học Ở<b> Đại Học Đường Đời</b>
+            </span>
+            <span>Ta Chỉ Sống Một Lần Trong Đời</span>
+            <span>
+              Số Người Theo Dõi: <b> 3.319.241 Clones ☑️</b>
+            </span>
+            <span>
+              Số Channel Theo Dõi: <b> 4 Channels </b>
+            </span>
+            <span>
+              Số Người Ghét Bỏ: <b> Infinities </b>
+            </span>
+            <span>
+              Email Cá Nhân: <b> {dataUser?.data()?.email} </b>
+            </span>
+          </UserMainLeft>
+          <UserMainMain>
+            <UserMainMainPost>
+              <PostHeader>
+                <img src={dataUser?.data()?.photoURL} alt="This is Avatar" />
+                <button>Start A Post</button>
+              </PostHeader>
+              <PostFooter></PostFooter>
+            </UserMainMainPost>
+            <UserMainMainSomething>
+              <Post />
+            </UserMainMainSomething>
+          </UserMainMain>
+          <UserMainRight>
+            <h1>
+              {" "}
+              <DoubleArrowIcon /> CHANNELS OWNED
+            </h1>
+            {dataUser?.data()?.channelUserOwned.length >0 ? (dataUser?.data()?.channelUserOwned.map((data) => (
+              <ChannelFollow key={Math.trunc(Math.random()*1000000)}>
+                <p>#</p>
+                <span>{data.nameChannel}</span>
+              </ChannelFollow>
+            ))) : (
+              <ChannelNoFollow>
+                <span>No Owned Channel</span>
+              </ChannelNoFollow>
+            )}
+          </UserMainRight>
+        </UserMain>
+      </MainUserContainer>
+    </>
   );
 }
 
@@ -135,6 +136,7 @@ const HeaderUserAvatar = styled.div`
   align-items: center;
   cursor: pointer;
   > img {
+    background-color: white;
     width: 200px;
     height: 200px;
     object-fit: cover;
@@ -215,8 +217,8 @@ const UserMainMain = styled.div`
 
 const UserMainMainPost = styled.div`
   width: 100%;
-  height:80px;
-  border-bottom: 1px solid rgba(0, 0, 0,0.3);
+  height: 80px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
 `;
@@ -227,27 +229,27 @@ const PostHeader = styled.div`
   display: flex;
   flex-direction: row;
   margin: 10px 40px;
-  >img{
+  > img {
     height: 60px;
     width: 60px;
     border-radius: 50%;
     object-fit: cover;
     margin-right: 20px;
   }
-  >button{
+  > button {
     height: 60px;
     width: 75%;
     font-size: 16px;
     padding-left: 20px;
     text-align: start;
-    color: rgba(0,0,0,0.3);
-    border: 0.5px solid rgba(0,0,0,0.2);
+    color: rgba(0, 0, 0, 0.3);
+    border: 0.5px solid rgba(0, 0, 0, 0.2);
     border-radius: 15px;
     /* background-color: var(--color-original); */
 
-    :hover{
-    border: 0.5px solid rgba(0,0,0,0.7);
-    color: rgba(0,0,0,1);
+    :hover {
+      border: 0.5px solid rgba(0, 0, 0, 0.7);
+      color: rgba(0, 0, 0, 1);
     }
   }
 `;
@@ -286,6 +288,19 @@ const ChannelFollow = styled.div`
   > span {
     font-weight: 600;
     cursor: pointer;
+  }
+`;
+
+const ChannelNoFollow = styled.div`
+  display: flex;
+  line-height: 2;
+  align-items: center;
+  margin: 0 auto;
+  /* margin-left: 20px; */
+  >span{
+    font-weight: 600;
+    cursor: none;
+    color: red;
   }
 `;
 

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useCollection } from "react-firebase-hooks/firestore";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import CreateIcon from "@material-ui/icons/Create";
-import InsertCommentIcon from "@material-ui/icons/InsertComment";
+// import InsertCommentIcon from "@material-ui/icons/InsertComment";
 import InboxIcon from "@material-ui/icons/Inbox";
 import DraftsIcon from "@material-ui/icons/Drafts";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
@@ -13,13 +13,16 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import AppsIcon from "@material-ui/icons/Apps";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import { auth, db } from "../../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import SideBarOptions from "../SideBarOptions";
+import { useHistory } from "react-router";
 
 function SideBar() {
   const [channels] = useCollection(db.collection("rooms"));
   const [user] = useAuthState(auth);
+  const history = useHistory();
   return (
     <SideBarContainer>
       <SideBarHeader>
@@ -32,7 +35,10 @@ function SideBar() {
         </SideBarInfo>
         <CreateIcon />
       </SideBarHeader>
-      <SideBarOptions Icon={InsertCommentIcon} title="Threads" />
+      <Profile onClick={()=> history.push(`/user/${user.uid}`)}>
+        <AccountBoxIcon fontSize="small" style={{ padding: 10 }} />
+        <h3>Your Profile</h3>
+      </Profile>
       <SideBarOptions Icon={InboxIcon} title="Mentions & Reactions" />
       <SideBarOptions Icon={DraftsIcon} title="Saved Items" />
       <SideBarOptions Icon={BookmarkBorderIcon} title="Channel Browser" />
@@ -67,6 +73,21 @@ const SideBarContainer = styled.div`
     margin-top: 10px;
     margin-bottom: 10px;
     border: 1px solid #444;
+  }
+`;
+
+const Profile = styled.div`
+  display: flex;
+  font-size: 12px;
+  align-items: center;
+  padding-left: 2px;
+  cursor: pointer;
+  :hover {
+    opacity: 0.9;
+    background-color: #333;
+  }
+  > h3 {
+    font-weight: 500;
   }
 `;
 

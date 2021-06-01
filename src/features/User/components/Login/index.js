@@ -2,12 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import {Button} from "@material-ui/core"
 import { auth, provider } from "../../../../firebase";
+import { useHistory } from "react-router";
 
 function Login() {
+
+    const history = useHistory();
 
     const signIn = (e) =>{
         e.preventDefault();
         auth.signInWithPopup(provider).catch((error) => alert(error.message))
+        history.push("/");
     }
   return (
     <LoginContainer>

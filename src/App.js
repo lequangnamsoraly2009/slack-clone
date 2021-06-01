@@ -1,9 +1,14 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import styled from "styled-components";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "./firebase";
+import { auth} from "./firebase";
 import Spinner from "react-spinkit";
 import Chat from "features/App/components/Chat";
 import Login from "features/User/components/Login";
@@ -14,7 +19,6 @@ import NotFound from "components/NotFound";
 
 function App() {
   const [user, loading] = useAuthState(auth);
-
   if (loading) {
     return (
       <AppLoading>
@@ -40,9 +44,9 @@ function App() {
             <AppBody>
               <SideBar />
               <Switch>
-              <Redirect exact from="/" to="/chat" />
+                <Redirect exact from="/" to="/chat" />
 
-                <Route path="/chat" component={Chat} />                          
+                <Route path="/chat" component={Chat} />
                 <Route path="/user" component={User} />
                 <Route component={NotFound} />
               </Switch>

@@ -9,10 +9,8 @@ function User(props) {
   console.log({ match });
   return (
     <Switch>
-      <Route exact path={match.url} component={MainUser} />
-      <Route path={`${match.url}/edit`} component={MainEditUser} />
-      <Route path={`${match.url}/:editId`} component={MainEditUser} />
-
+      <Route exact path={`${match.url}/:userId`} component={MainUser} />
+      <Route path={`${match.url}/:userUd/edit`} component={MainEditUser} />
       <Route component={NotFound} />
     </Switch>
   );

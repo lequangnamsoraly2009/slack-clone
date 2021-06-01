@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+// import * as admin from 'firebase-admin';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAwjcMhHTpSHcE624Qo07rV9pZNqc4eGaM",
@@ -13,6 +14,7 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const auth = firebase.auth();
+// const authAuthentication = admin.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
 export {db,auth,provider};

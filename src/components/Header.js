@@ -5,19 +5,46 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import SearchIcon from "@material-ui/icons/Search";
 import EcoIcon from "@material-ui/icons/Eco";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import {statusUser} from "../common/statusUser";
+import { useHistory } from "react-router";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 function Header() {
   const [user] = useAuthState(auth);
+  const history = useHistory();
+
+  const  channelUserOwned = [];
+  const [roomChannel] = useCollection(db.collection("rooms"))
+  
+  // console.log(roomChannel?.docs.map(doc => doc?.data()));
+  const channelArrayUser =  roomChannel?.docs.map(doc => doc.data())
+
+  for(let i=0;i<channelArrayUser?.length;i++){
+    if(user.uid === channelArrayUser[i].userUid){
+      channelUserOwned.push(channelArrayUser[i]);
+    }
+  }
+  
+ 
+  db.collection("users")
+    .doc(user.uid)
+    .set({
+      displayName: user.displayName,
+      uid: user.uid,
+      email: user.email,
+      photoURL: user.photoURL,
+      statusUser : statusUser[Math.trunc(Math.random()*statusUser.length)],
+      channelUserOwned: channelUserOwned,
+    })
+    .then(() => {
+      console.log("Add user success");
+    });
   // console.log(user);
   return (
     <HeaderContainer>
       <HeaderLeft>
-        <HeaderAvatar
-          
-          alt={user?.displayName}
-          src={user?.photoURL}
-        />
+        <HeaderAvatar onClick={()=>history.push('/')} alt={user?.displayName} src={user?.photoURL} />
         <AccessTimeIcon />
       </HeaderLeft>
       <HeaderMain>
@@ -26,7 +53,6 @@ function Header() {
       </HeaderMain>
       <HeaderRight>
         <EcoIcon onClick={() => auth.signOut()} />
-       
       </HeaderRight>
     </HeaderContainer>
   );
