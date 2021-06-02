@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import CloseIcon from "@material-ui/icons/Close";
+// import CloseIcon from "@material-ui/icons/Close";
+
 
 function ModalDetails(props) {
 
@@ -11,9 +12,11 @@ function ModalDetails(props) {
           <Content onClick={ e => e.stopPropagation()}>
             <Header>
               <h2>Details Channel #{props.detailsRoom?.nameChannel}</h2>
-              <ButtonClose>
-                <CloseIcon onClick={props.handleClickClose}/>
+              <ButtonClose onClick={props.handleClickClose}>
+                <img src="/images/close-icon.svg" alt="" />
               </ButtonClose>
+
+                {/* <CloseIcon onClick={props.handleClickClose}/> */}
             </Header>
             <MainDetails>
               <span>
@@ -30,7 +33,7 @@ function ModalDetails(props) {
                 Email: <b>{props.detailsRoom?.userEmail}</b>
               </span>
               <span>
-                Date Created: <b>{props.detailsRoom?.timestamp.toDate().toLocaleString()}</b>
+                Date Created: <b>{props.detailsRoom?.timestamp.toDate().toLocaleString('en-GB',{ timeZone: 'UTC' })}</b>
               </span>
               <span>
                 Number Of Users: <b>5 </b>
@@ -93,18 +96,22 @@ const Header = styled.div`
 `;
 
 const ButtonClose = styled.div`
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    border: none;
-    padding:0;
-    margin: 0;
-  > .MuiSvgIcon-root {
+    height: 30px;
+    width: 30px;
+    min-width: auto;
+    color: rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+  /* > .MuiSvgIcon-root {
     height: 40px;
     width: 40px;
     color: rgba(0, 0, 0, 0.7);
     cursor: pointer;
+      pointer-events: none;
+
+  } */
+  >svg,img{
+      width: 30px;
+      pointer-events: none;
   }
 `;
 

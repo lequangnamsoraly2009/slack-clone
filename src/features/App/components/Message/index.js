@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { selectRoomId } from "../../appSlice";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router";
+import moment from "moment";
+
 
 function Message({
   message,
@@ -52,7 +54,11 @@ function Message({
         <MessageInfo>
           <h4 onClick={handleClickUser}>
             {userName}
-            <span>{new Date(timestamp?.toDate()).toLocaleString()}</span>
+            {/* {moment(new Date(timestamp?.toDate())).fromNow()} -  */}
+            <span>{moment(new Date(timestamp?.toDate())).fromNow()}</span>
+            {/* <span>{new }</span>
+            <span>{}</span> */}
+
           </h4>
           <p>{message}</p>
         </MessageInfo>
