@@ -1,29 +1,41 @@
+import { selectRoomId } from "features/App/appSlice";
+import { db } from "firebase.js";
 import React from "react";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 // import CloseIcon from "@material-ui/icons/Close";
 
-
 function ModalDetails(props) {
+  const [listUser] = useCollection(db.collection("users"));
+  const roomId = useSelector(selectRoomId);
+  const [listMessage] = useCollection(
+    roomId &&
+      db
+        .collection("rooms")
+        .doc(roomId)
+        .collection("messages")
+  );
 
   return (
     <>
       {props.showModal === "open" && (
         <ModalDetailsContainer onClick={props.handleClickClose}>
-          <Content onClick={ e => e.stopPropagation()}>
+          <Content onClick={(e) => e.stopPropagation()}>
             <Header>
               <h2>Details Channel #{props.detailsRoom?.nameChannel}</h2>
               <ButtonClose onClick={props.handleClickClose}>
                 <img src="/images/close-icon.svg" alt="" />
               </ButtonClose>
 
-                {/* <CloseIcon onClick={props.handleClickClose}/> */}
+              {/* <CloseIcon onClick={props.handleClickClose}/> */}
             </Header>
             <MainDetails>
               <span>
                 Name Of Channel: <b>{props.detailsRoom?.nameChannel}</b>
               </span>
               <span>
-                Status:  
+                Status:
                 <Active> Active</Active>
               </span>
               <span>
@@ -33,13 +45,18 @@ function ModalDetails(props) {
                 Email: <b>{props.detailsRoom?.userEmail}</b>
               </span>
               <span>
-                Date Created: <b>{props.detailsRoom?.timestamp.toDate().toLocaleString('en-GB',{ timeZone: 'UTC' })}</b>
+                Date Created:{" "}
+                <b>
+                  {props.detailsRoom?.timestamp
+                    .toDate()
+                    .toLocaleString("en-GB")}
+                </b>
               </span>
               <span>
-                Number Of Users: <b>5 </b>
+                Number Of Users: <b> {listUser ? listUser?.docs.length : '0'}</b>
               </span>
               <span>
-                Number Of Message: <b>378</b>
+                Number Of Message: <b>{listMessage ? listMessage?.docs.length : '0'}</b>
               </span>
 
               <span>
@@ -47,7 +64,7 @@ function ModalDetails(props) {
               </span>
             </MainDetails>
             <Footer>
-              <span>Copy Right By Soraly v2.0</span>
+              <span>Copy Right By Soraly v1.0621</span>
             </Footer>
           </Content>
         </ModalDetailsContainer>
@@ -96,11 +113,11 @@ const Header = styled.div`
 `;
 
 const ButtonClose = styled.div`
-    height: 30px;
-    width: 30px;
-    min-width: auto;
-    color: rgba(0, 0, 0, 0.15);
-    cursor: pointer;
+  height: 30px;
+  width: 30px;
+  min-width: auto;
+  color: rgba(0, 0, 0, 0.15);
+  cursor: pointer;
   /* > .MuiSvgIcon-root {
     height: 40px;
     width: 40px;
@@ -109,14 +126,15 @@ const ButtonClose = styled.div`
       pointer-events: none;
 
   } */
-  >svg,img{
-      width: 30px;
-      pointer-events: none;
+  > svg,
+  img {
+    width: 30px;
+    pointer-events: none;
   }
 `;
 
 const Active = styled.b`
-    color: green;
+  color: green;
 `;
 
 const MainDetails = styled.div`
