@@ -15,50 +15,56 @@ function Header() {
   const [user] = useAuthState(auth);
   const history = useHistory();
 
-  const channelUserOwned = [];
   const [roomChannel] = useCollection(db.collection("rooms"));
 
   // console.log(roomChannel?.docs.map(doc => doc?.data()));
-  const channelArrayUser = roomChannel?.docs.map((doc) => doc.data());
-
-  for (let i = 0; i < channelArrayUser?.length; i++) {
-    if (user.uid === channelArrayUser[i].userUid) {
-      channelUserOwned.push(channelArrayUser[i]);
+  const channelUserOwnedFunc = () => {
+    const channelUserOwned = [];
+    const channelArrayUser = roomChannel?.docs.map((doc) => doc.data());
+    for (let i = 0; i < channelArrayUser?.length; i++) {
+      if (user.uid === channelArrayUser[i].userUid) {
+        channelUserOwned.push(channelArrayUser[i]);
+      }
     }
-  }
+    return channelUserOwned;
+  };
+
+  db.collection("users")
+    .doc(user?.uid)
+    .set({
+      displayName: user.displayName,
+      uid: user.uid,
+      email: user.email,
+      photoURL: user.photoURL,
+      statusUser: statusUser[Math.trunc(Math.random() * statusUser.length)],
+      channelUserOwned: channelUserOwnedFunc(),
+    })
+    .then(() => {
+      console.log("Success Add User Database");
+    });
 
   useEffect(() => {
-    db.collection("users")
-        .doc(user.uid)
-        .set({
-          displayName: user.displayName,
-          uid: user.uid,
-          email: user.email,
-          photoURL: user.photoURL,
-          statusUser: statusUser[Math.trunc(Math.random() * statusUser.length)],
-          channelUserOwned: channelUserOwned,
-          isOnline: 1,
-        })
-        .then(() => {
-          console.log("User Online");
-        });
+    db.collection("isOnline")
+      .doc(user.uid)
+      .set({
+        uid: user.uid,
+        isOnline: 1,
+      })
+      .then(() => {
+        console.log("User Online");
+      });
     return function cleanup() {
-      db.collection("users")
+      db.collection("isOnline")
         .doc(user.uid)
         .set({
-          displayName: user.displayName,
           uid: user.uid,
-          email: user.email,
-          photoURL: user.photoURL,
-          statusUser: statusUser[Math.trunc(Math.random() * statusUser.length)],
-          channelUserOwned: channelUserOwned,
           isOnline: 0,
         })
         .then(() => {
           console.log("User Offline");
         });
     };
-  }, [user.uid]);
+  }, []);
 
   // console.log(user);
   return (

@@ -24,11 +24,12 @@ function Message({
   const roomId = useSelector(selectRoomId);
 
   const [listUser] = useCollection(db.collection("users"));
+  const [listIsOnline] = useCollection(db.collection("isOnline"));
 
 
   const checkStatus = () => {
     let check = false;
-    listUser?.docs?.forEach((user) => {
+    listIsOnline?.docs?.forEach((user) => {
       console.log(user.data().isOnline);
       if (user.data().uid === userUid && user.data()?.isOnline === 1) {
         check =  true;
