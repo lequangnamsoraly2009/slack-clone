@@ -49,7 +49,6 @@ function ChatInput({ channelName, channelId, chatRef }) {
     <ChatInputContainer>
       <form>
         <input
-          autofocus="true"
           value={messageText}
           onChange={(e) => setMessageCondition(e)}
           placeholder={`Message #${channelName}`}

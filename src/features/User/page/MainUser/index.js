@@ -51,13 +51,13 @@ function MainUser() {
             </span>
             <span>Ta Chỉ Sống Một Lần Trong Đời</span>
             <span>
-              Số Người Theo Dõi: <b> 3.319.241 Clones ☑️</b>
+              Số Người Theo Dõi: <b> {Math.trunc(Math.random()*10000)} Slacker ☑️</b>
             </span>
             <span>
-              Số Channel Theo Dõi: <b> 4 Channels </b>
+              Số Channel Sở Hữu: <b> {dataUser?.data()?.channelUserOwned.length} </b>
             </span>
             <span>
-              Số Người Ghét Bỏ: <b> Infinities </b>
+              Số Người Ghét Bạn: <b> {Math.trunc(Math.random()*100)} Hater </b>
             </span>
             <span>
               Email Cá Nhân: <b> {dataUser?.data()?.email} </b>

@@ -1,25 +1,27 @@
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import Message from "../Message";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ChatInput from "../ChatInput";
-import { selectRoomId} from "../../appSlice";
+import { selectRoomId } from "../../appSlice";
 import { auth } from "firebase.js";
 import { db } from "firebase.js";
+import ModalDetails from "../ModalDetails";
 
 function Chat() {
+  const [showModal, setShowModal] = useState("close");
   const chatRef = useRef(null);
   const [user] = useAuthState(auth);
   const roomId = useSelector(selectRoomId);
-  console.log(roomId);
+  // const outSideModal = useRef(null);
+
 
   const [detailsRoom] = useDocument(
     roomId && db.collection("rooms").doc(roomId)
-  )
-
+  );
 
   const [roomMessage, loading] = useCollection(
     roomId &&
@@ -34,9 +36,30 @@ function Chat() {
     chatRef?.current?.scrollIntoView({ behavior: "smooth" });
   }, [roomId, loading]);
 
+  const handleClickClose = (e) => {
+    e.preventDefault();
+    if (e.target !== e.currentTarget) {
+      return;
+    } else {
+      switch (showModal) {
+        case "open":
+          setShowModal("close");
+          break;
+        case "close":
+          setShowModal("open");
+          break;
+        default:
+          setShowModal("close");
+          break;
+      }
+    }
+  };
+
+  
+
   return (
     <ChatContainer>
-      {(detailsRoom && roomId && roomMessage && user)  && (
+      {detailsRoom && roomId && roomMessage && user && (
         <>
           <ChatHeader>
             <ChatHeaderLeft>
@@ -46,7 +69,7 @@ function Chat() {
               <StarBorderOutlinedIcon />
             </ChatHeaderLeft>
             <ChatHeaderRight>
-              <p>Details</p>
+              <p onClick={handleClickClose}>Details</p>
             </ChatHeaderRight>
           </ChatHeader>
           <ChatMessage>
@@ -70,8 +93,13 @@ function Chat() {
           </ChatMessage>
           <ChatInput
             chatRef={chatRef}
-            channelName={(roomId) ? detailsRoom?.data()?.nameChannel : "No data"}
+            channelName={roomId ? detailsRoom?.data()?.nameChannel : "No data"}
             channelId={roomId}
+          />
+          <ModalDetails
+            showModal={showModal}
+            detailsRoom={detailsRoom?.data()}
+            handleClickClose={handleClickClose}
           />
         </>
       )}
@@ -121,14 +149,14 @@ const ChatHeaderLeft = styled.div`
 `;
 
 const ChatHeaderRight = styled.div`
-  /* border: 1px solid #222;
+  border: 1px solid #222;
   border-radius: 5px;
-  padding: 2px; */
+  padding: 2px;
   > p {
     display: flex;
     align-items: center;
     font-size: 14px;
-    /* cursor: pointer; */
+    cursor: pointer;
   }
 `;
 
