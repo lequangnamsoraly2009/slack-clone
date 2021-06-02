@@ -1,6 +1,7 @@
 import { selectRoomId } from "features/App/appSlice";
-import { db } from "firebase.js";
+import { auth, db } from "firebase.js";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
@@ -8,14 +9,21 @@ import styled from "styled-components";
 
 function ModalDetails(props) {
   const [listUser] = useCollection(db.collection("users"));
+  const [user] = useAuthState(auth);
   const roomId = useSelector(selectRoomId);
   const [listMessage] = useCollection(
-    roomId &&
-      db
-        .collection("rooms")
-        .doc(roomId)
-        .collection("messages")
+    roomId && db.collection("rooms").doc(roomId).collection("messages")
   );
+
+  const countMessageOfYouInChannel = () => {
+    let count = 0;
+    listMessage?.docs?.forEach((message) => {
+      if (message.data().userUid === user.uid) {
+        count += 1;
+      }
+    });
+    return count;
+  };
 
   return (
     <>
@@ -53,18 +61,20 @@ function ModalDetails(props) {
                 </b>
               </span>
               <span>
-                Number Of Users: <b> {listUser ? listUser?.docs.length : '0'}</b>
+                Number Of Users:{" "}
+                <b> {listUser ? listUser?.docs.length : "0"}</b>
               </span>
               <span>
-                Number Of Message: <b>{listMessage ? listMessage?.docs.length : '0'}</b>
+                Number Of Message:{" "}
+                <b>{listMessage ? listMessage?.docs.length : "0"}</b>
               </span>
 
               <span>
-                Your message number: <b>20</b>
+                Your message number: <b>{countMessageOfYouInChannel()}</b>
               </span>
             </MainDetails>
             <Footer>
-              <span>Copy Right By Soraly v1.0621</span>
+              <span>Copy Right By Soraly v1.0621.3</span>
             </Footer>
           </Content>
         </ModalDetailsContainer>

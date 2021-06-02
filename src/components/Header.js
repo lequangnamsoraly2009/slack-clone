@@ -1,50 +1,74 @@
 import { Avatar } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import SearchIcon from "@material-ui/icons/Search";
 import EcoIcon from "@material-ui/icons/Eco";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
-import {statusUser} from "../common/statusUser";
+import { statusUser } from "../common/statusUser";
 import { useHistory } from "react-router";
 import { useCollection } from "react-firebase-hooks/firestore";
 
 function Header() {
+  // const [isOnline, setIsOnline] = useState(1);
   const [user] = useAuthState(auth);
   const history = useHistory();
 
-  const  channelUserOwned = [];
-  const [roomChannel] = useCollection(db.collection("rooms"))
-  
-  // console.log(roomChannel?.docs.map(doc => doc?.data()));
-  const channelArrayUser =  roomChannel?.docs.map(doc => doc.data())
+  const channelUserOwned = [];
+  const [roomChannel] = useCollection(db.collection("rooms"));
 
-  for(let i=0;i<channelArrayUser?.length;i++){
-    if(user.uid === channelArrayUser[i].userUid){
+  // console.log(roomChannel?.docs.map(doc => doc?.data()));
+  const channelArrayUser = roomChannel?.docs.map((doc) => doc.data());
+
+  for (let i = 0; i < channelArrayUser?.length; i++) {
+    if (user.uid === channelArrayUser[i].userUid) {
       channelUserOwned.push(channelArrayUser[i]);
     }
   }
-  
- 
-  db.collection("users")
-    .doc(user.uid)
-    .set({
-      displayName: user.displayName,
-      uid: user.uid,
-      email: user.email,
-      photoURL: user.photoURL,
-      statusUser : statusUser[Math.trunc(Math.random()*statusUser.length)],
-      channelUserOwned: channelUserOwned,
-    })
-    .then(() => {
-      console.log("Add user success");
-    });
+
+  useEffect(() => {
+    db.collection("users")
+        .doc(user.uid)
+        .set({
+          displayName: user.displayName,
+          uid: user.uid,
+          email: user.email,
+          photoURL: user.photoURL,
+          statusUser: statusUser[Math.trunc(Math.random() * statusUser.length)],
+          channelUserOwned: channelUserOwned,
+          isOnline: 1,
+        })
+        .then(() => {
+          console.log("User Online");
+        });
+    return function cleanup() {
+      db.collection("users")
+        .doc(user.uid)
+        .set({
+          displayName: user.displayName,
+          uid: user.uid,
+          email: user.email,
+          photoURL: user.photoURL,
+          statusUser: statusUser[Math.trunc(Math.random() * statusUser.length)],
+          channelUserOwned: channelUserOwned,
+          isOnline: 0,
+        })
+        .then(() => {
+          console.log("User Offline");
+        });
+    };
+  }, [user.uid]);
+
   // console.log(user);
   return (
     <HeaderContainer>
       <HeaderLeft>
-        <HeaderAvatar onClick={()=>history.push('/')} alt={user?.displayName} src={user?.photoURL} />
+        <HeaderAvatar
+          onClick={() => history.push("/")}
+          alt={user?.displayName}
+          src={user?.photoURL}
+        />
         <AccessTimeIcon />
       </HeaderLeft>
       <HeaderMain>
