@@ -9,6 +9,7 @@ import { auth, db } from "../firebase";
 import { statusUser } from "../common/statusUser";
 import { useHistory } from "react-router";
 import { useCollection } from "react-firebase-hooks/firestore";
+import { backgroundUser } from "common/backgroundUser";
 
 function Header() {
   // const [isOnline, setIsOnline] = useState(1);
@@ -37,6 +38,7 @@ function Header() {
       email: user.email,
       photoURL: user.photoURL,
       statusUser: statusUser[Math.trunc(Math.random() * statusUser.length)],
+      backgroundUser: backgroundUser[Math.trunc(Math.random() * backgroundUser.length)],
       channelUserOwned: channelUserOwnedFunc(),
     })
     .then(() => {

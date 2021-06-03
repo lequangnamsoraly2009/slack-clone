@@ -19,8 +19,8 @@ function MainUser() {
         <HeaderUser>
           <HeaderUserBackground>
             <img
-              src="https://c.wallhere.com/photos/0f/db/5_Centimeters_Per_Second_anime-106824.jpg!d"
-              alt="This is background dizz"
+              src={dataUser?.data()?.backgroundUser}
+              alt="This is background and it's broken"
             />
           </HeaderUserBackground>
           <HeaderUserAvatar>
@@ -130,7 +130,7 @@ const HeaderUserAvatar = styled.div`
   position: absolute;
   content: "";
   top: 50%;
-  right: 43.5%;
+  right: 44.5%;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -188,7 +188,7 @@ const UserMain = styled.div`
 const UserMainLeft = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 0.25;
+  flex: 0.2;
   > h1 {
     text-align: center;
     font-size: 20px;
@@ -210,7 +210,7 @@ const UserMainLeft = styled.div`
 `;
 
 const UserMainMain = styled.div`
-  flex: 0.55;
+  flex: 0.6;
   border-left: 1px solid rgba(0, 0, 0, 0.5);
   border-right: 1px solid rgba(0, 0, 0, 0.5);
 `;

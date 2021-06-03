@@ -1,4 +1,4 @@
-import { selectRoomId } from "features/App/appSlice";
+import { selectRoomId } from "features/Channel/channelSlice";
 import { auth, db } from "firebase.js";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";

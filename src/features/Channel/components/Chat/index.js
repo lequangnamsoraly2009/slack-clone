@@ -6,7 +6,7 @@ import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import Message from "../Message";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ChatInput from "../ChatInput";
-import { selectRoomId } from "../../appSlice";
+import { selectRoomId } from "../../channelSlice";
 import { auth } from "firebase.js";
 import { db } from "firebase.js";
 import ModalDetails from "../ModalDetails";

@@ -10,12 +10,11 @@ import styled from "styled-components";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth} from "./firebase";
 import Spinner from "react-spinkit";
-import Chat from "features/App/components/Chat";
 import Login from "features/User/components/Login";
 import Header from "components/Header";
-import SideBar from "features/App/components/SideBar";
 import User from "features/User";
 import NotFound from "components/NotFound";
+import MainChat from "features/Channel/page/MainChat";
 
 function App() {
   const [user, loading] = useAuthState(auth);
@@ -42,11 +41,9 @@ function App() {
           <>
             <Header />
             <AppBody>
-              <SideBar />
-              <Switch>
+              <Switch>           
                 <Redirect exact from="/" to="/chat" />
-
-                <Route path="/chat" component={Chat} />
+                <Route path="/chat" component={MainChat} />
                 <Route path="/user" component={User} />
                 <Route component={NotFound} />
               </Switch>

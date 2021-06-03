@@ -3,7 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import firebase from "firebase";
-import { enterRoom } from "features/App/appSlice";
+import { enterRoom } from "features/Channel/channelSlice";
 import { auth, db } from "firebase.js";
 import CloseIcon from "@material-ui/icons/Close";
 import { useDocument } from "react-firebase-hooks/firestore";
