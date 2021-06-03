@@ -53,7 +53,7 @@ function ModalDetails(props) {
                 Email: <b>{props.detailsRoom?.userEmail}</b>
               </span>
               <span>
-                Date Created:{" "}
+                Date Last Edited:{" "}
                 <b>
                   {props.detailsRoom?.timestamp
                     .toDate()

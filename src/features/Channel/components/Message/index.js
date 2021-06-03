@@ -30,7 +30,7 @@ function Message({
   const checkStatus = () => {
     let check = false;
     listIsOnline?.docs?.forEach((user) => {
-      console.log(user.data().isOnline);
+      // console.log(user.data().isOnline);
       if (user.data().uid === userUid && user.data()?.isOnline === 1) {
         check =  true;
       }

@@ -65,7 +65,6 @@ const SideBarContainer = styled.div`
   background-color: var(--color-original);
   flex: 0.29; // Use it accounted for 29% of 100% width
   color: white;
-  border-top: 1px solid #000;
   max-width: 300px;
   margin-top: 60px;
   overflow-y: scroll;
@@ -93,6 +92,8 @@ const Profile = styled.div`
 `;
 
 const SideBarHeader = styled.div`
+  border-top: 1px solid #000;
+
   display: flex;
   border-bottom: 1px solid #000;
   padding: 13px;

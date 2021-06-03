@@ -14,7 +14,7 @@ import Login from "features/User/components/Login";
 import Header from "components/Header";
 import User from "features/User";
 import NotFound from "components/NotFound";
-import MainChat from "features/Channel/page/MainChat";
+import Channel from "features/Channel";
 
 function App() {
   const [user, loading] = useAuthState(auth);
@@ -42,8 +42,8 @@ function App() {
             <Header />
             <AppBody>
               <Switch>           
-                <Redirect exact from="/" to="/chat" />
-                <Route path="/chat" component={MainChat} />
+                <Redirect exact from="/" to="/channel" />
+                <Route path="/channel" component={Channel} />
                 <Route path="/user" component={User} />
                 <Route component={NotFound} />
               </Switch>

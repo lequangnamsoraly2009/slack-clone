@@ -1,4 +1,4 @@
-import React from "react";
+import React  from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -7,10 +7,13 @@ import { enterRoom } from "features/Channel/channelSlice";
 import { auth, db } from "firebase.js";
 import CloseIcon from "@material-ui/icons/Close";
 import { useDocument } from "react-firebase-hooks/firestore";
+import { useHistory } from "react-router";
 
 function SideBarOptions({ Icon, title, addChannelOption, id }) {
   const dispatch = useDispatch();
   const [user] = useAuthState(auth);
+  const history = useHistory();
+
   // console.log(channels.docs.data())
 
   const [detailsRoom] = useDocument(id && db.collection("rooms").doc(id));
@@ -38,6 +41,7 @@ function SideBarOptions({ Icon, title, addChannelOption, id }) {
         })
       );
     }
+    history.push(`/channel/${id}`);
   };
 
   const handleDeleteChannel = (e) => {
@@ -52,7 +56,7 @@ function SideBarOptions({ Icon, title, addChannelOption, id }) {
           console.log("Success");
         });
     }
-    console.log("Failed")
+    console.log("Failed");
   };
 
   return (
@@ -63,12 +67,15 @@ function SideBarOptions({ Icon, title, addChannelOption, id }) {
       {Icon ? (
         <h3>{title}</h3>
       ) : (
-        <SideBarOptionChannel>
-          <span># {title}</span>
-          <SideBarOptionIcon>
-            <CloseIcon onClick={(e) => handleDeleteChannel(e)} />
-          </SideBarOptionIcon>
-        </SideBarOptionChannel>
+        <>
+          <SideBarOptionChannel>
+            <span># {title}</span>
+            <SideBarOptionIcon>
+              <CloseIcon onClick={(e) => handleDeleteChannel(e)} />
+            </SideBarOptionIcon>
+          </SideBarOptionChannel>
+          
+        </>
       )}
     </SideBarOptionContainer>
   );

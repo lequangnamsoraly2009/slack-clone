@@ -10,9 +10,13 @@ import { selectRoomId } from "../../channelSlice";
 import { auth } from "firebase.js";
 import { db } from "firebase.js";
 import ModalDetails from "../ModalDetails";
+import EditIcon from '@material-ui/icons/Edit';
+import ModalEditChannelName from "../ModalEditChannelName";
 
 function Chat() {
   const [showModal, setShowModal] = useState("close");
+  const [showModalEdit, setShowModalEdit] = useState("close");
+
   const chatRef = useRef(null);
   const [user] = useAuthState(auth);
   const roomId = useSelector(selectRoomId);
@@ -55,6 +59,25 @@ function Chat() {
     }
   };
 
+  const handleClickCloseEdit = (e) => {
+    e.preventDefault();
+    if (e.target !== e.currentTarget) {
+      return;
+    } else {
+      switch (showModalEdit) {
+        case "open":
+          setShowModalEdit("close");
+          break;
+        case "close":
+          setShowModalEdit("open");
+          break;
+        default:
+          setShowModalEdit("close");
+          break;
+      }
+    }
+  };
+
   
 
   return (
@@ -68,6 +91,9 @@ function Chat() {
               </h4>
               <StarBorderOutlinedIcon />
             </ChatHeaderLeft>
+            <ChatHeaderMiddle>
+            <EditIcon onClick={e => handleClickCloseEdit(e)}/>
+            </ChatHeaderMiddle>
             <ChatHeaderRight>
               <p onClick={handleClickClose}>Details</p>
             </ChatHeaderRight>
@@ -101,6 +127,11 @@ function Chat() {
             detailsRoom={detailsRoom?.data()}
             handleClickClose={handleClickClose}
           />
+          <ModalEditChannelName
+            showModalEdit={showModalEdit}
+            detailsRoom={detailsRoom?.data()}
+            handleClickCloseEdit={e => handleClickCloseEdit(e)}
+          /> 
         </>
       )}
     </ChatContainer>
@@ -157,6 +188,18 @@ const ChatHeaderRight = styled.div`
     align-items: center;
     font-size: 14px;
     cursor: pointer;
+  }
+`;
+
+const ChatHeaderMiddle = styled(ChatHeaderRight)`
+  border: none;
+  >:hover{
+      cursor: pointer;
+    }
+  >.MuiSvgIcon-root {
+    font-size: 20px;
+    color: red;
+   
   }
 `;
 
