@@ -3,15 +3,24 @@ import styled from "styled-components";
 import InfoIcon from "@material-ui/icons/Info";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import Post from "features/User/components/Post";
-import { useParams } from "react-router";
-import { db } from "firebase.js";
+import { useHistory, useParams } from "react-router";
+import { auth, db } from "firebase.js";
 import { useDocument } from "react-firebase-hooks/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { authAuthentication } from "firebase.js";
 
 function MainUser() {
   const { userId } = useParams();
   const [dataUser] = useDocument(userId && db.collection("users").doc(userId));
+  const history = useHistory();
+  const [user] = useAuthState(auth);
+
+  const handleClickAddUser = (e) => {
+    e.preventDefault();
+    if (!userId) return;
+    history.push(`/user/add/${userId}`);
+  };
 
   return (
     <>
@@ -51,19 +60,37 @@ function MainUser() {
             </span>
             <span>Ta Chỉ Sống Một Lần Trong Đời</span>
             <span>
-              Số Người Theo Dõi: <b> {Math.trunc(Math.random()*10000)} Slacker ☑️</b>
+              Số Người Theo Dõi:{" "}
+              <b> {Math.trunc(Math.random() * 10000)} Slacker ☑️</b>
             </span>
             <span>
-              Số Channel Sở Hữu: <b> {dataUser?.data()?.channelUserOwned.length} </b>
+              Số Channel Sở Hữu:{" "}
+              <b> {dataUser?.data()?.channelUserOwned.length} </b>
             </span>
             <span>
-              Số Người Ghét Bạn: <b> {Math.trunc(Math.random()*100)} Hater </b>
+              Số Người Ghét Bạn:{" "}
+              <b> {Math.trunc(Math.random() * 100)} Hater </b>
             </span>
             <span>
               Email Cá Nhân: <b> {dataUser?.data()?.email} </b>
             </span>
           </UserMainLeft>
           <UserMainMain>
+            <>
+            {user.uid === userId ? (
+              <UserAddInfo>
+                <span>
+                  If you not declared, please select add. If you want to
+                  update,please select update
+                </span>
+                <Info>
+                  <AddInfo onClick={(e) => handleClickAddUser(e)}>Add</AddInfo>
+                  <EditInfo>Update</EditInfo>
+                </Info>
+              </UserAddInfo>
+
+            ):(<></>)}
+            </>
             <UserMainMainPost>
               <PostHeader>
                 <img src={dataUser?.data()?.photoURL} alt="This is Avatar" />
@@ -80,12 +107,14 @@ function MainUser() {
               {" "}
               <DoubleArrowIcon /> CHANNELS OWNED
             </h1>
-            {dataUser?.data()?.channelUserOwned.length >0 ? (dataUser?.data()?.channelUserOwned.map((data) => (
-              <ChannelFollow key={Math.trunc(Math.random()*1000000)}>
-                <p>#</p>
-                <span>{data.nameChannel}</span>
-              </ChannelFollow>
-            ))) : (
+            {dataUser?.data()?.channelUserOwned.length > 0 ? (
+              dataUser?.data()?.channelUserOwned.map((data) => (
+                <ChannelFollow key={Math.trunc(Math.random() * 1000000)}>
+                  <p>#</p>
+                  <span>{data.nameChannel}</span>
+                </ChannelFollow>
+              ))
+            ) : (
               <ChannelNoFollow>
                 <span>No Owned Channel</span>
               </ChannelNoFollow>
@@ -215,6 +244,48 @@ const UserMainMain = styled.div`
   border-right: 1px solid rgba(0, 0, 0, 0.5);
 `;
 
+const UserAddInfo = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+`;
+
+const Info = styled.div`
+  margin: 10px;
+`;
+
+const Button = styled.button`
+  width: 80px;
+  height: 40px;
+  margin: 0 20px;
+  border: none;
+`;
+
+const AddInfo = styled(Button)`
+  background-color: #52bdf7;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  :hover {
+    background-color: #2c607d;
+    color: white;
+  }
+`;
+
+const EditInfo = styled(Button)`
+  background-color: #52bdf7;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  :hover {
+    background-color: #2c607d;
+    color: white;
+  }
+`;
+
 const UserMainMainPost = styled.div`
   width: 100%;
   height: 80px;
@@ -297,7 +368,7 @@ const ChannelNoFollow = styled.div`
   align-items: center;
   margin: 0 auto;
   /* margin-left: 20px; */
-  >span{
+  > span {
     font-weight: 600;
     cursor: none;
     color: red;
