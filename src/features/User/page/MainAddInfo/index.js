@@ -1,3 +1,4 @@
+import FormInput from "features/User/components/FormInput";
 import { auth } from "firebase.js";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -14,8 +15,8 @@ function MainAddInfo() {
         <Header>
           <h1>ADDITIONAL PERSONAL INFORMATION</h1>
         </Header>
-        <Information>
-          <h1>Updating ..... </h1>
+        <Information> 
+          <FormInput />
         </Information>
       </MainEditUserContainer>
     </>
