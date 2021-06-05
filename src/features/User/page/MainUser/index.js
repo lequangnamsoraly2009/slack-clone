@@ -17,12 +17,12 @@ import {GF_USER} from "../../../../common/gfUser";
 function MainUser() {
   const { userId } = useParams();
   const [dataUser] = useDocument(userId && db.collection("users").doc(userId));
-  const [dataUserInformation] = useDocument(userId && db.collection("userInformation").doc(userId));
+  const [dataUserInformation] = useDocument(userId && db.collection("userInformation")?.doc(userId));
   const history = useHistory();
   const [user] = useAuthState(auth);
-  const locationDataBase = dataUserInformation?.data().userLocation;
-  const genderDataBase = dataUserInformation?.data().userGender;
-  const gfDataBase = dataUserInformation?.data().userNYC;
+  const locationDataBase = dataUserInformation?.data()?.userLocation;
+  const genderDataBase = dataUserInformation?.data()?.userGender;
+  const gfDataBase = dataUserInformation?.data()?.userNYC;
 
   const location = LOCATION_USER_OPTIONS.find(lct => lct.value === locationDataBase );
   const gender = GENDER_USER_OPTIONS.find(lct => lct.value ===  genderDataBase );
@@ -72,12 +72,12 @@ function MainUser() {
               Đã Từng Sống Ở <b> Trái Đất</b>
             </span>
             <span>
-              Số Lượng Người Yêu Cũ <b>{nyc?.label}</b>
+              Số Lượng Người Yêu Cũ <b>{nyc ? nyc?.label : "Vô Số"}</b>
             </span>
             <span>
-              Đã Từng Học Ở <b>{location?.label}</b>
+              Đã Từng Học Ở <b>{location ? location?.label : "Sao Hỏa"}</b>
             </span>
-            <span>Bạn là <b>{gender?.label}</b></span>
+            <span>Bạn là <b>{gender ? gender?.label : "Bê Đê"}</b></span>
             <span>
               Số Người Theo Dõi:{" "}
               <b> {Math.trunc(Math.random() * 10000)} Slacker ☑️</b>

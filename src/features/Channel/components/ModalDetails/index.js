@@ -74,7 +74,7 @@ function ModalDetails(props) {
               </span>
             </MainDetails>
             <Footer>
-              <span>Copy Right By Soraly v1.0621.5</span>
+              <span>Copy Right By Soraly v1.0621.6</span>
             </Footer>
           </Content>
         </ModalDetailsContainer>
