@@ -3,9 +3,14 @@ import styled from "styled-components";
 import Select from "react-select";
 import "./selectField.css";
 
+
 function SelectField(props) {
-  const { field, label, placeholder, options } = props;
+  const { field, label, placeholder, options ,form } = props;
   const { name,value } = field;
+  const {errors,touched} = form;
+  const showError = errors[name] && touched[name];
+
+
   const selectedOptionName = options.find(option => option.value === value);
 
   const handleSelectOptionChange = (selectedOption) =>{
@@ -21,6 +26,7 @@ function SelectField(props) {
   return (
     <SelectFieldContainer>
       {label && <label htmlFor={name}>{label}</label>}
+      <div>
       <Select
         // styles={customStyles}
         id={name}
@@ -30,8 +36,13 @@ function SelectField(props) {
 
         placeholder={placeholder}
         options={options}
-        className="select-field"
-      />
+        // className="select-field"
+        className={"select-field"}
+        // || (showError ? 'is-invalid' : '')
+        />
+        {/* <ErrorMessage name={name} component={FormFeedback}/> */}
+        {showError && <p>{errors}</p>}
+      </div>
     </SelectFieldContainer>
   );
 }
@@ -45,6 +56,13 @@ const SelectFieldContainer = styled.form`
   align-items: center;
   > label {
     flex: 0.15;
+  }
+  >div{
+    flex: 1;
+    >p{
+      color: red; 
+    }
+    
   }
 `;
 // const customStyles = {
