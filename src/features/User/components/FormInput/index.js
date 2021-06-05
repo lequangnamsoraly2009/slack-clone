@@ -1,14 +1,19 @@
+import { genderUserOptions } from "common/genderUser";
+import { gfUser } from "common/gfUser";
+import { locationUserOptions } from "common/locationUser";
 import InputField from "custom-fields/InputField";
+import SelectField from "custom-fields/SelectField";
 import { FastField, Form, Formik } from "formik";
 import React from "react";
 
 function FormInput() {
     const initialValues = {
-        userBirthDay: '',
+        userAge: '',
         userPhone: '',
-        userAddress: '',
-        userSchool: '',
-        userGender: 'male',
+        userLocation: null,
+        userGender: null,
+        userFaceBook: '',
+        userNYC:'',
     }
   return (
     <Formik
@@ -22,18 +27,19 @@ function FormInput() {
         return (
           <Form>
             <FastField
-              name="userBirthDay"
+              name="userAge"
               component={InputField}
               
-              label="BirthDay"
-              placeholder="Your BirthDay"
+              label="Age"
+              placeholder="Your Age"
             />
             <FastField
               name="userGender"
-              component={InputField}
+              component={SelectField}
               
               label="Gender"
               placeholder="Your Gender"
+              options={genderUserOptions}
             />
             <FastField
               name="userPhone"
@@ -43,20 +49,28 @@ function FormInput() {
               placeholder="Your Phone Number"
             />
             <FastField
-              name="userAddress"
-              component={InputField}
+              name="userLocation"
+              component={SelectField}
               
-              label="Address"
-              placeholder="Your Address"
+              label="Location"
+              placeholder="Your Location"
+              options={locationUserOptions}
             />
             <FastField
-              name="userSchool"
+              name="userFaceBook"
               component={InputField}
               
-              label="School"
-              placeholder="Your School"
+              label="Link FaceBook"
+              placeholder="Your Link FaceBook"
             />
-            
+            <FastField
+              name="userNYC"
+              component={SelectField}
+              
+              label="GirlFriends "
+              placeholder="Number Your Old GirlFriends"
+              options={gfUser}
+            />
           </Form>
         );
       }}

@@ -1,13 +1,13 @@
 import FormInput from "features/User/components/FormInput";
-import { auth } from "firebase.js";
+// import { auth } from "firebase.js";
 import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useParams } from "react-router";
+// import { useAuthState } from "react-firebase-hooks/auth";
+// import { useParams } from "react-router";
 import styled from "styled-components";
 
 function MainAddInfo() {
-  const [user] = useAuthState(auth);
-  const { userId } = useParams();
+  // const [user] = useAuthState(auth);
+  // const { userId } = useParams();
 
   return (
     <>

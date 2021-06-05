@@ -29,7 +29,7 @@ const InputFieldContainer = styled.form`
     height: 40px;
     width: 80%;
     font-size: 16px;
-    margin-left: 10px;
+    margin-left: 20px;
     padding-left: 10px;
     border-radius: 10px;
     border: 0.5px solid rgba(0, 0, 0, 0.2);
