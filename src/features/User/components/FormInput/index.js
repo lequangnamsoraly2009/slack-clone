@@ -1,6 +1,6 @@
-import { genderUserOptions } from "common/genderUser";
-import { gfUser } from "common/gfUser";
-import { locationUserOptions } from "common/locationUser";
+import { GENDER_USER_OPTIONS } from "common/genderUser";
+import { GF_USER } from "common/gfUser";
+import { LOCATION_USER_OPTIONS } from "common/locationUser";
 import InputField from "custom-fields/InputField";
 import SelectField from "custom-fields/SelectField";
 import { db } from "firebase.js";
@@ -32,7 +32,7 @@ function FormInput(props) {
 
   const handleClickInformation = (values) =>{
     if(!props.userId) return;
-    db.collection('userInfomation').doc(props.userId).set({
+    db.collection('userInformation').doc(props.userId).set({
       userAge: values.userAge,
       userPhone: values.userPhone,
       userLocation: values.userLocation,
@@ -68,7 +68,7 @@ function FormInput(props) {
               component={SelectField}
               label="Gender"
               placeholder="Your Gender"
-              options={genderUserOptions}
+              options={GENDER_USER_OPTIONS}
             />
             <FastField
               name="userPhone"
@@ -81,7 +81,7 @@ function FormInput(props) {
               component={SelectField}
               label="Location"
               placeholder="Your Location"
-              options={locationUserOptions}
+              options={LOCATION_USER_OPTIONS}
             />
             <FastField
               name="userFaceBook"
@@ -94,7 +94,7 @@ function FormInput(props) {
               component={SelectField}
               label="GirlFriends "
               placeholder="Number Your Old GirlFriends"
-              options={gfUser}
+              options={GF_USER}
             />
             <FormSubmit>
               <button type="submit"  >Submit Information</button>

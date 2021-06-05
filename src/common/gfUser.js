@@ -1,4 +1,4 @@
-export const gfUser = [
+export const GF_USER = [
     {value:1 , label: "Một Em"},
     {value:2 , label: "Hai Em"},
     {value:3 , label: "Ba Em"},

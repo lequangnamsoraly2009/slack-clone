@@ -7,14 +7,33 @@ import { useHistory, useParams } from "react-router";
 import { auth, db } from "firebase.js";
 import { useDocument } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
+import {LOCATION_USER_OPTIONS} from "../../../../common/locationUser";
+import {GENDER_USER_OPTIONS} from "../../../../common/genderUser";
+import {GF_USER} from "../../../../common/gfUser";
+
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { authAuthentication } from "firebase.js";
 
 function MainUser() {
   const { userId } = useParams();
   const [dataUser] = useDocument(userId && db.collection("users").doc(userId));
+  const [dataUserInformation] = useDocument(userId && db.collection("userInformation").doc(userId));
   const history = useHistory();
   const [user] = useAuthState(auth);
+  const locationDataBase = dataUserInformation?.data().userLocation;
+  const genderDataBase = dataUserInformation?.data().userGender;
+  const gfDataBase = dataUserInformation?.data().userNYC;
+
+  const location = LOCATION_USER_OPTIONS.find(lct => lct.value === locationDataBase );
+  const gender = GENDER_USER_OPTIONS.find(lct => lct.value ===  genderDataBase );
+  const nyc = GF_USER.find(lct => lct.value ===  gfDataBase );
+
+
+
+
+  // console.log(location.label);
+
+
 
   const handleClickAddUser = (e) => {
     e.preventDefault();
@@ -53,12 +72,12 @@ function MainUser() {
               Đã Từng Sống Ở <b> Trái Đất</b>
             </span>
             <span>
-              Có Lẽ Là Đang <b>FA</b>{" "}
+              Số Lượng Người Yêu Cũ <b>{nyc?.label}</b>
             </span>
             <span>
-              Đã Từng Học Ở<b> Đại Học Đường Đời</b>
+              Đã Từng Học Ở <b>{location?.label}</b>
             </span>
-            <span>Ta Chỉ Sống Một Lần Trong Đời</span>
+            <span>Bạn là <b>{gender?.label}</b></span>
             <span>
               Số Người Theo Dõi:{" "}
               <b> {Math.trunc(Math.random() * 10000)} Slacker ☑️</b>

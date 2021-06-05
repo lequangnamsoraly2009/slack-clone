@@ -1,5 +1,5 @@
-export const locationUserOptions = [
-  { value: 1, label: "An Giang" },
+export const LOCATION_USER_OPTIONS = [
+  { value: 1, label: 'An Giang' },
   { value: 2, label: "Bà Rịa – Vũng Tàu" },
   { value: 3, label: "Bạc Liêu" },
   { value: 4, label: "Bắc Giang" },
