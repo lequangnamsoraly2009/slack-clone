@@ -7,9 +7,9 @@ import { useHistory, useParams } from "react-router";
 import { auth, db } from "firebase.js";
 import { useDocument } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
-import {LOCATION_USER_OPTIONS} from "../../../../common/locationUser";
-import {GENDER_USER_OPTIONS} from "../../../../common/genderUser";
-import {GF_USER} from "../../../../common/gfUser";
+import { LOCATION_USER_OPTIONS } from "../../../../common/locationUser";
+import { GENDER_USER_OPTIONS } from "../../../../common/genderUser";
+import { GF_USER } from "../../../../common/gfUser";
 
 // import { useAuthState } from "react-firebase-hooks/auth";
 // import { authAuthentication } from "firebase.js";
@@ -17,23 +17,24 @@ import {GF_USER} from "../../../../common/gfUser";
 function MainUser() {
   const { userId } = useParams();
   const [dataUser] = useDocument(userId && db.collection("users").doc(userId));
-  const [dataUserInformation] = useDocument(userId && db.collection("userInformation")?.doc(userId));
+  const [dataUserInformation] = useDocument(
+    userId && db.collection("userInformation")?.doc(userId)
+  );
   const history = useHistory();
   const [user] = useAuthState(auth);
   const locationDataBase = dataUserInformation?.data()?.userLocation;
   const genderDataBase = dataUserInformation?.data()?.userGender;
   const gfDataBase = dataUserInformation?.data()?.userNYC;
 
-  const location = LOCATION_USER_OPTIONS.find(lct => lct.value === locationDataBase );
-  const gender = GENDER_USER_OPTIONS.find(lct => lct.value ===  genderDataBase );
-  const nyc = GF_USER.find(lct => lct.value ===  gfDataBase );
-
-
-
+  const location = LOCATION_USER_OPTIONS.find(
+    (lct) => lct.value === locationDataBase
+  );
+  const gender = GENDER_USER_OPTIONS.find(
+    (lct) => lct.value === genderDataBase
+  );
+  const nyc = GF_USER.find((lct) => lct.value === gfDataBase);
 
   // console.log(location.label);
-
-
 
   const handleClickAddUser = (e) => {
     e.preventDefault();
@@ -62,7 +63,6 @@ function MainUser() {
             <i>{dataUser?.data()?.statusUser}</i>
           </p>
         </UserNameAndDescription>
-
         <UserMain>
           <UserMainLeft>
             <h1>
@@ -77,7 +77,15 @@ function MainUser() {
             <span>
               Đã Từng Học Ở <b>{location ? location?.label : "Sao Hỏa"}</b>
             </span>
-            <span>Bạn là <b>{gender ? gender?.label : "Bê Đê"}</b></span>
+            <span>
+              Bạn là <b>{gender ? gender?.label : "Bê Đê"}</b>
+            </span>
+            <span>
+              Bạn <b>{dataUserInformation?.data()?.userAge}</b> Tuổi Rồi
+            </span>
+            <span>
+              Contact Qua SĐT: <b>{dataUserInformation?.data()?.userPhone}</b>
+            </span>
             <span>
               Số Người Theo Dõi:{" "}
               <b> {Math.trunc(Math.random() * 10000)} Slacker ☑️</b>
@@ -93,22 +101,32 @@ function MainUser() {
             <span>
               Email Cá Nhân: <b> {dataUser?.data()?.email} </b>
             </span>
+            <span>
+              Link FaceBook:{" "}
+              <a href={dataUserInformation?.data()?.userFaceBook}>
+                {" "}
+                {dataUserInformation?.data()?.userFaceBook}{" "}
+              </a>
+            </span>
           </UserMainLeft>
           <UserMainMain>
             <>
-            {user.uid === userId ? (
-              <UserAddInfo>
-                <span>
-                  If you not declared, please select add. If you want to
-                  update,please select update
-                </span>
-                <Info>
-                  <AddInfo onClick={(e) => handleClickAddUser(e)}>Add</AddInfo>
-                  <EditInfo>Update</EditInfo>
-                </Info>
-              </UserAddInfo>
-
-            ):(<></>)}
+              {user.uid === userId ? (
+                <UserAddInfo>
+                  <span>
+                    If you not declared, please select add. If you want to
+                    update,please select update
+                  </span>
+                  <Info>
+                    <AddInfo onClick={(e) => handleClickAddUser(e)}>
+                      Add
+                    </AddInfo>
+                    <EditInfo>Update</EditInfo>
+                  </Info>
+                </UserAddInfo>
+              ) : (
+                <></>
+              )}
             </>
             <UserMainMainPost>
               <PostHeader>
@@ -148,6 +166,7 @@ function MainUser() {
 const MainUserContainer = styled.div`
   overflow-y: scroll;
   margin-top: 60px;
+  height: auto;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -177,12 +196,13 @@ const HeaderUserBackground = styled.div`
 const HeaderUserAvatar = styled.div`
   position: absolute;
   content: "";
-  top: 50%;
+  top: 60%;
   right: 44.5%;
   margin: 0 auto;
   display: flex;
   align-items: center;
   cursor: pointer;
+
   > img {
     background-color: white;
     width: 200px;
@@ -205,11 +225,12 @@ const HeaderUserAvatar = styled.div`
 
 const UserNameAndDescription = styled.div`
   width: 100%;
-  display: flex;
+  height: 100px;
+  display: block;
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 100px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   padding-bottom: 10px;
   width: 100%;
