@@ -1,6 +1,8 @@
 ## Release:
 Click here [Slack Clone 2.0](https://slack-clone-63da2.web.app/)
 
+![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/lequangnamsoraly2009/slack-clone/master?style=flat-square)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
