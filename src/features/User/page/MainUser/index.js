@@ -81,10 +81,10 @@ function MainUser() {
               Bạn là <b>{gender ? gender?.label : "Bê Đê"}</b>
             </span>
             <span>
-              Bạn <b>{dataUserInformation?.data()?.userAge}</b> Tuổi Rồi
+              Bạn <b>{dataUserInformation?.data() ? dataUserInformation?.data()?.userAge : "2"}</b> Tuổi Rồi
             </span>
             <span>
-              Contact Qua SĐT: <b>{dataUserInformation?.data()?.userPhone}</b>
+              Contact Qua SĐT: <b>{dataUserInformation?.data() ? dataUserInformation?.data()?.userPhone : "19001080"}</b>
             </span>
             <span>
               Số Người Theo Dõi:{" "}
@@ -103,9 +103,8 @@ function MainUser() {
             </span>
             <span>
               Link FaceBook:{" "}
-              <a href={dataUserInformation?.data()?.userFaceBook}>
-                {" "}
-                {dataUserInformation?.data()?.userFaceBook}{" "}
+              <a href={dataUserInformation?.data() ? dataUserInformation?.data()?.userFaceBook : "https://github.com/lequangnamsoraly2009"}>
+                {dataUserInformation?.data() ? dataUserInformation?.data()?.userFaceBook : "https://github.com/lequangnamsoraly2009"}
               </a>
             </span>
           </UserMainLeft>
